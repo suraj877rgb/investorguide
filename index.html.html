@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvestorGuide — India's Smart Investor Toolkit</title>
+<meta name="description" content="Free calculators, goal planner, risk quiz, jargon buster and investment guides for Indian investors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: #f9f8f5; color: #1a1a18; line-height: 1.6; }
+
+  /* ── DESIGN TOKENS ── */
+  :root {
+    --brand:        #0F6E56;
+    --brand-mid:    #1D9E75;
+    --brand-light:  #E1F5EE;
+    --brand-dark:   #085041;
+    --accent:       #BA7517;
+    --accent-mid:   #EF9F27;
+    --accent-light: #FAEEDA;
+    --coral:        #993C1D;
+    --coral-light:  #FAECE7;
+    --blue:         #185FA5;
+    --blue-light:   #E6F1FB;
+    --purple:       #534AB7;
+    --purple-light: #EEEDFE;
+    --gray-50:      #F1EFE8;
+    --gray-100:     #D3D1C7;
+    --gray-400:     #888780;
+    --gray-600:     #5F5E5A;
+    --gray-800:     #444441;
+    --text:         #1a1a18;
+    --muted:        #6b6b67;
+    --faint:        #9b9b96;
+    --bg:           #ffffff;
+    --bg2:          #f9f8f5;
+    --bg3:          #f1f0eb;
+    --border:       rgba(0,0,0,0.10);
+    --border2:      rgba(0,0,0,0.18);
+    --radius:       14px;
+    --radius-sm:    8px;
+    --shadow:       0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+    --shadow-lg:    0 2px 8px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .display { font-family: 'DM Serif Display', serif; }
+  h1,h2,h3 { font-family: 'DM Serif Display', serif; font-weight: 400; line-height: 1.2; }
+  h1 { font-size: clamp(28px, 5vw, 44px); }
+  h2 { font-size: clamp(22px, 3.5vw, 32px); }
+  h3 { font-size: 20px; }
+  p { color: var(--muted); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 72px 0; }
+  .section-alt { background: var(--bg); }
+  .section-label { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: var(--brand); background: var(--brand-light); padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+  .section-header { margin-bottom: 40px; }
+  .section-header p { font-size: 16px; margin-top: 10px; max-width: 560px; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; height: 64px; gap: 32px; }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--brand); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent-mid); }
+  .nav-links { display: flex; gap: 6px; flex: 1; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 6px; transition: all .15s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--brand); background: var(--brand-light); }
+  .nav-cta { background: var(--brand); color: #fff; font-size: 13px; font-weight: 600; border: none; padding: 9px 20px; border-radius: 8px; cursor: pointer; white-space: nowrap; transition: background .15s; text-decoration: none; }
+  .nav-cta:hover { background: var(--brand-dark); }
+  .nav-mobile-btn { display: none; background: none; border: 1px solid var(--border2); border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 18px; }
+  @media(max-width:768px){
+    .nav-links { display: none; }
+    .nav-mobile-btn { display: block; }
+    .nav-cta { padding: 7px 14px; font-size: 12px; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--bg);
+    padding: 80px 24px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 60% 50%, #E1F5EE 0%, transparent 70%);
+    opacity: .6;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: center; position: relative; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--brand); background: var(--brand-light); border: 1px solid #9FE1CB; padding: 5px 14px 5px 10px; border-radius: 20px; margin-bottom: 20px; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-mid); display: inline-block; }
+  .hero h1 { margin-bottom: 18px; }
+  .hero h1 em { color: var(--brand); font-style: normal; }
+  .hero > .hero-inner > div > p { font-size: 17px; line-height: 1.7; max-width: 480px; margin-bottom: 32px; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+  .btn-primary { background: var(--brand); color: #fff; border: none; padding: 13px 26px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all .15s; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(15,110,86,.3); }
+  .btn-outline { background: transparent; color: var(--brand); border: 2px solid var(--brand); padding: 11px 24px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all .15s; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; }
+  .btn-outline:hover { background: var(--brand-light); }
+  .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .hstat strong { display: block; font-size: 26px; font-weight: 600; color: var(--brand); line-height: 1; }
+  .hstat span { font-size: 12px; color: var(--muted); margin-top: 4px; display: block; }
+  .hero-card {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow-lg);
+  }
+  .hero-card-title { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 20px; }
+  .hc-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .hc-row:last-child { border-bottom: none; }
+  .hc-label { font-size: 13px; color: var(--muted); }
+  .hc-val { font-size: 15px; font-weight: 600; color: var(--text); }
+  .hc-val.green { color: var(--brand); }
+  .hc-bar-wrap { margin-top: 20px; }
+  .hc-bar-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .hc-bar { height: 10px; background: var(--bg3); border-radius: 5px; overflow: hidden; }
+  .hc-bar-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--brand), var(--accent-mid)); }
+  @media(max-width:900px){
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-card { display: none; }
+  }
+
+  /* ── FEATURE STRIP ── */
+  .feature-strip { background: var(--brand); padding: 20px 24px; }
+  .feature-strip-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
+  .fs-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 500; }
+  .fs-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-mid); flex-shrink: 0; }
+
+  /* ── CARDS ── */
+  .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .card-header { padding: 20px 24px 0; }
+  .card-body { padding: 20px 24px 24px; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tab { font-size: 13px; font-weight: 500; padding: 8px 18px; border-radius: 20px; border: 1px solid var(--border2); cursor: pointer; color: var(--muted); background: var(--bg); transition: all .15s; }
+  .tab:hover { border-color: var(--brand); color: var(--brand); }
+  .tab.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+  /* ── CALCULATORS ── */
+  .calc-section-tabs { margin-bottom: 24px; }
+  .calc-panel { display: none; }
+  .calc-panel.active { display: block; }
+  .calc-card-header { background: var(--brand); padding: 20px 24px; color: #fff; }
+  .calc-card-header.blue { background: var(--blue); }
+  .calc-card-header.coral { background: var(--coral); }
+  .calc-card-header h3 { color: #fff; font-size: 22px; }
+  .calc-card-header p { color: rgba(255,255,255,.72); font-size: 13px; margin-top: 4px; }
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media(max-width:600px){ .calc-grid { grid-template-columns: 1fr; } }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .field input[type=range] { width: 100%; accent-color: var(--brand); cursor: pointer; }
+  .field-val { font-size: 18px; font-weight: 600; color: var(--text); margin-top: 6px; }
+  .result-box { background: var(--brand-light); border: 1px solid #9FE1CB; border-radius: 12px; padding: 20px 24px; margin-top: 8px; }
+  .result-box.blue { background: var(--blue-light); border-color: #85B7EB; }
+  .result-box.coral { background: var(--coral-light); border-color: #F0997B; }
+  .result-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .res-item { text-align: center; }
+  .res-val { font-size: 20px; font-weight: 600; color: var(--brand); }
+  .res-val.blue { color: var(--blue); }
+  .res-val.coral { color: var(--coral); }
+  .res-label { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .compound-bar { height: 10px; border-radius: 5px; background: var(--bg3); margin-top: 16px; overflow: hidden; }
+  .compound-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--brand), var(--accent-mid)); transition: width .5s; }
+  .legend-row { display: flex; gap: 16px; margin-top: 10px; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+  .calc-note { margin-top: 14px; padding: 12px 16px; background: var(--bg3); border-radius: 8px; font-size: 12px; color: var(--muted); line-height: 1.6; border-left: 3px solid var(--accent-mid); border-radius: 0 8px 8px 0; }
+
+  /* ── SLIDER + NUMBER INPUT ROW ── */
+  .slider-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .slider-row input[type=range] { flex: 1; }
+  .num-input {
+    width: 90px; flex-shrink: 0;
+    border: 1.5px solid var(--border2); border-radius: 8px;
+    padding: 6px 10px; font-size: 13px; font-weight: 600;
+    color: var(--text); background: var(--bg);
+    font-family: 'DM Sans', sans-serif; outline: none;
+    transition: border-color .15s; text-align: right;
+  }
+  .num-input:focus { border-color: var(--brand); }
+  .num-input::-webkit-inner-spin-button,
+  .num-input::-webkit-outer-spin-button { opacity: 1; }
+
+  /* ── FEATURE GRID ── */
+  .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .feat-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; cursor: pointer; transition: all .2s; text-decoration: none; display: block; }
+  .feat-card:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .feat-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
+  .feat-card h4 { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .feat-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── GOAL PLANNER ── */
+  .gp-presets { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .gp-preset { font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 20px; border: 1px solid var(--border2); cursor: pointer; color: var(--muted); background: var(--bg2); transition: all .15s; }
+  .gp-preset:hover, .gp-preset.active { background: var(--brand-light); color: var(--brand); border-color: var(--brand-mid); }
+  .gp-result { background: var(--brand-light); border: 1px solid #9FE1CB; border-radius: 14px; padding: 24px; margin-top: 8px; }
+  .gp-big { font-size: 44px; font-weight: 600; color: var(--brand); line-height: 1; }
+  .gp-big-label { font-size: 14px; color: var(--brand-dark); margin-top: 4px; }
+  .gp-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 20px 0; }
+  .gp-stat { background: rgba(15,110,86,.08); border-radius: 10px; padding: 12px 14px; }
+  .gp-stat .sv { font-size: 17px; font-weight: 600; color: var(--brand); }
+  .gp-stat .sl { font-size: 11px; color: var(--brand-dark); margin-top: 2px; }
+  .tl-bar { display: flex; height: 32px; border-radius: 8px; overflow: hidden; }
+  .tl-invested { background: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #E1F5EE; transition: flex .5s; }
+  .tl-returns { background: var(--accent-mid); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #412402; transition: flex .5s; }
+  .milestone-row { display: flex; align-items: center; margin-top: 20px; }
+  .ms { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 64px; }
+  .ms-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border2); background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--muted); z-index: 1; transition: all .3s; }
+  .ms-dot.done { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .ms-dot.active { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .ms-line { flex: 1; height: 2px; background: var(--border2); margin-bottom: 20px; transition: background .3s; }
+  .ms-line.done { background: var(--brand); }
+  .ms-label { font-size: 11px; color: var(--muted); }
+  .ms-amt { font-size: 12px; font-weight: 600; color: var(--brand); }
+  .gp-tip { margin-top: 16px; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── RISK QUIZ ── */
+  .quiz-wrap { max-width: 620px; }
+  .quiz-progress { display: flex; gap: 6px; margin-bottom: 24px; }
+  .qp { height: 4px; flex: 1; border-radius: 2px; background: var(--bg3); }
+  .qp.done { background: var(--brand); }
+  .qp.active { background: var(--accent-mid); }
+  .quiz-q { font-size: 17px; font-weight: 500; color: var(--text); line-height: 1.5; margin-bottom: 20px; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border: 1.5px solid var(--border2); border-radius: 10px; cursor: pointer; font-size: 14px; color: var(--text); transition: all .15s; }
+  .quiz-opt:hover { border-color: var(--brand); background: var(--brand-light); }
+  .quiz-opt.selected { border-color: var(--brand); background: var(--brand-light); font-weight: 500; }
+  .opt-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border2); flex-shrink: 0; transition: all .15s; }
+  .quiz-opt.selected .opt-radio { border-color: var(--brand); background: var(--brand); }
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
+  .quiz-step { font-size: 13px; color: var(--muted); }
+  .quiz-result { background: var(--brand-light); border: 1px solid #9FE1CB; border-radius: 14px; padding: 28px; text-align: center; }
+  .quiz-result h3 { font-size: 28px; color: var(--brand); margin-bottom: 8px; }
+  .quiz-result p { color: var(--brand-dark); font-size: 15px; line-height: 1.6; }
+  .quiz-result-badge { display: inline-block; font-size: 13px; font-weight: 600; padding: 6px 18px; border-radius: 20px; margin-bottom: 16px; }
+
+  /* ── ASSET ALLOCATOR ── */
+  .alloc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  @media(max-width:640px){ .alloc-grid { grid-template-columns: 1fr; } }
+  .alloc-bar { border-radius: 12px; overflow: hidden; height: 160px; display: flex; flex-direction: column; }
+  .alloc-eq { background: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; transition: flex .5s; }
+  .alloc-debt { background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; transition: flex .5s; }
+  .alloc-gold { background: var(--accent-mid); flex: 10; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #412402; }
+  .alloc-legend { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .al-item { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .al-dot { width: 12px; height: 12px; border-radius: 4px; flex-shrink: 0; }
+  .al-pct { font-size: 18px; font-weight: 600; color: var(--text); margin-left: auto; }
+  .alloc-tip { background: var(--blue-light); border: 1px solid #85B7EB; border-radius: 10px; padding: 14px 18px; font-size: 13px; color: #0C447C; line-height: 1.6; }
+
+  /* ── JARGON BUSTER ── */
+  .gloss-search-wrap { position: relative; margin-bottom: 0; }
+  .gloss-search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 16px; pointer-events: none; }
+  .gloss-search { width: 100%; border: none; border-bottom: 1px solid var(--border); padding: 14px 14px 14px 42px; font-size: 15px; color: var(--text); font-family: 'DM Sans', sans-serif; background: transparent; outline: none; }
+  .gloss-items { }
+  .gloss-item { padding: 14px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .12s; }
+  .gloss-item:last-child { border-bottom: none; }
+  .gloss-item:hover { background: var(--bg2); }
+  .gloss-term-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .gloss-term { font-size: 14px; font-weight: 600; color: var(--brand); }
+  .gloss-tag { font-size: 10px; font-weight: 600; background: var(--brand-light); color: var(--brand); padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: .4px; }
+  .gloss-def { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .gloss-empty { padding: 32px; text-align: center; color: var(--muted); font-size: 14px; display: none; }
+
+  /* ── CHECKLIST ── */
+  .check-progress-bar { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+  .check-pfill { height: 100%; border-radius: 3px; background: var(--brand); transition: width .3s; }
+  .check-ptext { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+  .check-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .12s; }
+  .check-item:last-child { border-bottom: none; }
+  .check-box { width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--border2); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+  .check-item.done .check-box { background: var(--brand); border-color: var(--brand); }
+  .check-tick { color: #fff; font-size: 13px; font-weight: 700; display: none; }
+  .check-item.done .check-tick { display: block; }
+  .check-item.done .check-title { text-decoration: line-through; color: var(--muted); }
+  .check-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; transition: color .2s; }
+  .check-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── FIRST 10L GUIDE ── */
+  .guide-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .guide-tab { font-size: 13px; font-weight: 500; padding: 8px 18px; border-radius: 20px; border: 1px solid var(--border2); cursor: pointer; color: var(--muted); background: var(--bg); transition: all .15s; }
+  .guide-tab:hover { border-color: var(--accent-mid); color: var(--accent); }
+  .guide-tab.active { background: var(--accent-mid); color: #412402; border-color: var(--accent-mid); }
+  .guide-panel { display: none; }
+  .guide-panel.active { display: block; }
+  .option-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .oc { border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; background: var(--bg); cursor: pointer; transition: all .2s; }
+  .oc.featured { border: 2px solid var(--brand-mid); }
+  .oc:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .oc-badge { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: var(--brand-light); color: var(--brand); display: inline-block; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .4px; }
+  .oc-badge.warn { background: var(--accent-light); color: var(--accent); }
+  .oc-badge.neutral { background: var(--gray-50); color: var(--gray-800); }
+  .oc-badge.purple { background: var(--purple-light); color: var(--purple); }
+  .oc h4 { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .oc-ret { font-size: 26px; font-weight: 600; color: var(--brand); line-height: 1; }
+  .oc-sub { font-size: 11px; color: var(--muted); margin-top: 3px; margin-bottom: 14px; }
+  .oc-rows { border-top: 1px solid var(--border); padding-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+  .oc-row { display: flex; justify-content: space-between; font-size: 12px; }
+  .oc-row span:first-child { color: var(--muted); }
+  .oc-row .green { color: var(--brand); font-weight: 500; }
+  .oc-row .warn { color: var(--accent); font-weight: 500; }
+  .oc-row .danger { color: var(--coral); font-weight: 500; }
+  .comp-bar { height: 6px; border-radius: 3px; background: var(--bg3); margin-top: 10px; overflow: hidden; }
+  .cb-fill { height: 100%; border-radius: 3px; }
+  .growth-highlight { margin-top: 16px; padding: 14px 18px; background: var(--accent-light); border-radius: 10px; font-size: 13px; color: #412402; border: 1px solid #FAC775; line-height: 1.7; }
+  .how-steps { display: flex; flex-direction: column; }
+  .hs { display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .hs:last-child { border-bottom: none; }
+  .hs-num { width: 32px; height: 32px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .hs h4 { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .hs p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .hs .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px; margin-top: 8px; }
+  .myth-list { display: flex; flex-direction: column; gap: 12px; }
+  .myth { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .myth-q { background: var(--bg2); padding: 14px 18px; display: flex; align-items: flex-start; gap: 12px; }
+  .myth-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .myth-icon.wrong { background: #F7C1C1; color: #791F1F; }
+  .myth-icon.right { background: var(--brand-light); color: var(--brand); }
+  .myth-q p { font-size: 14px; font-weight: 600; color: var(--text); }
+  .myth-a { padding: 12px 18px; font-size: 13px; color: var(--muted); line-height: 1.65; border-top: 1px solid var(--border); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--text); color: rgba(255,255,255,.7); padding: 48px 24px 32px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  @media(max-width:640px){ .footer-top { grid-template-columns: 1fr; gap: 24px; } }
+  .footer-logo { font-family: 'DM Serif Display', serif; font-size: 24px; color: #fff; margin-bottom: 12px; }
+  .footer-logo span { color: var(--accent-mid); }
+  .footer-desc { font-size: 13px; line-height: 1.7; max-width: 280px; }
+  .footer-col h5 { font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 14px; }
+  .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,.65); text-decoration: none; margin-bottom: 8px; cursor: pointer; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 12px; }
+  .disclaimer { margin-top: 6px; font-size: 11px; color: rgba(255,255,255,.4); line-height: 1.6; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  .fade-up { animation: fadeUp .5s ease both; }
+  .fade-up-2 { animation: fadeUp .5s .1s ease both; }
+  .fade-up-3 { animation: fadeUp .5s .2s ease both; }
+
+  /* ── UTILITIES ── */
+  .text-center { text-align: center; }
+  .mb-4 { margin-bottom: 16px; }
+  .mb-6 { margin-bottom: 24px; }
+  .mb-8 { margin-bottom: 32px; }
+  .mt-4 { margin-top: 16px; }
+  .mt-6 { margin-top: 24px; }
+  input[type=text], input[type=email] {
+    width: 100%; border: 1.5px solid var(--border2); border-radius: 8px;
+    padding: 10px 14px; font-size: 14px; color: var(--text);
+    background: var(--bg); font-family: 'DM Sans', sans-serif; outline: none;
+    transition: border-color .15s;
+  }
+  input[type=text]:focus, input[type=email]:focus { border-color: var(--brand); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Investor<span>Guide</span></a>
+    <div class="nav-links">
+      <a href="#calculators">Calculators</a>
+      <a href="#goal-planner">Goal Planner</a>
+      <a href="#tools">Tools</a>
+      <a href="#learn">Learn</a>
+      <a href="#checklist">Checklist</a>
+    </div>
+    <button class="nav-mobile-btn" onclick="alert('Mobile menu — add your own drawer!')">☰</button>
+    <a href="#calculators" class="nav-cta">Start Now →</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge fade-up">Made for Indian Investors</div>
+      <h1 class="fade-up-2">Invest smarter,<br><em>grow bigger.</em></h1>
+      <p class="fade-up-3">India's smart investor toolkit. Calculate, analyse, and plan your investment journey — from your first ₹500 SIP to building serious wealth.</p>
+      <div class="hero-btns fade-up-3">
+        <a href="#calculators" class="btn-primary">Try a Calculator →</a>
+        <a href="#quiz" class="btn-outline">Know Your Risk</a>
+      </div>
+      <div class="hero-stats fade-up-3">
+        <div class="hstat"><strong>₹100</strong><span>Min. SIP to start</span></div>
+        <div class="hstat"><strong>12%</strong><span>Nifty 50 avg CAGR</span></div>
+        <div class="hstat"><strong>7 Tools</strong><span>Completely free</span></div>
+      </div>
+    </div>
+    <div class="hero-card fade-up-2">
+      <div class="hero-card-title">SIP Power Preview</div>
+      <div class="hc-row"><span class="hc-label">Monthly SIP</span><span class="hc-val">₹5,000</span></div>
+      <div class="hc-row"><span class="hc-label">Duration</span><span class="hc-val">15 years</span></div>
+      <div class="hc-row"><span class="hc-label">Expected return</span><span class="hc-val">12% p.a.</span></div>
+      <div class="hc-row"><span class="hc-label">Total invested</span><span class="hc-val">₹9.0 Lakh</span></div>
+      <div class="hc-row"><span class="hc-label">Final corpus</span><span class="hc-val green">₹25.0 Lakh</span></div>
+      <div class="hc-bar-wrap">
+        <div class="hc-bar-label"><span>Invested (36%)</span><span>Returns (64%)</span></div>
+        <div class="hc-bar"><div class="hc-bar-fill" style="width:100%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Feature strip -->
+<div class="feature-strip">
+  <div class="feature-strip-inner">
+    <div class="fs-item"><div class="fs-dot"></div>SIP &amp; Lumpsum Calculator</div>
+    <div class="fs-item"><div class="fs-dot"></div>EMI Calculator</div>
+    <div class="fs-item"><div class="fs-dot"></div>Inflation Wake-up</div>
+    <div class="fs-item"><div class="fs-dot"></div>Goal Planner</div>
+    <div class="fs-item"><div class="fs-dot"></div>Risk Quiz</div>
+    <div class="fs-item"><div class="fs-dot"></div>Asset Allocator</div>
+    <div class="fs-item"><div class="fs-dot"></div>Jargon Buster</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CALCULATORS
+══════════════════════════════════════════ -->
+<section class="section section-alt" id="calculators">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Calculators</div>
+      <h2>See the real numbers<br>behind your money</h2>
+      <p>Three essential calculators every Indian investor needs — built with sliders so you can explore scenarios instantly.</p>
+    </div>
+
+    <div class="calc-section-tabs tabs mb-6">
+      <div class="tab active" onclick="showCalc('sip',this)">SIP &amp; Lumpsum</div>
+      <div class="tab" onclick="showCalc('emi',this)">EMI (Home / Gold)</div>
+      <div class="tab" onclick="showCalc('inflation',this)">Inflation Wake-up</div>
+    </div>
+
+    <!-- SIP CALCULATOR -->
+    <div class="calc-panel active card" id="calc-sip">
+      <div class="calc-card-header">
+        <h3>SIP &amp; Lumpsum Calculator</h3>
+        <p>Discover the magic of compounding — India's most powerful wealth-building tool</p>
+      </div>
+      <div class="card-body">
+        <div class="calc-grid mb-6">
+          <div class="field">
+            <label>Monthly SIP Amount (₹)</label>
+            <div class="slider-row">
+              <input type="range" min="500" max="100000" step="500" value="5000" id="sip-amt" oninput="syncNum('sip-amt','sip-amt-n');calcSIP()">
+              <input type="number" class="num-input" id="sip-amt-n" value="5000" min="500" max="100000" step="500" oninput="syncRange('sip-amt-n','sip-amt');calcSIP()">
+            </div>
+            <div class="field-val" id="sip-amt-v">₹5,000</div>
+          </div>
+          <div class="field">
+            <label>Investment Duration</label>
+            <div class="slider-row">
+              <input type="range" min="1" max="30" step="1" value="10" id="sip-yr" oninput="syncNum('sip-yr','sip-yr-n');calcSIP()">
+              <input type="number" class="num-input" id="sip-yr-n" value="10" min="1" max="30" step="1" oninput="syncRange('sip-yr-n','sip-yr');calcSIP()">
+            </div>
+            <div class="field-val" id="sip-yr-v">10 Years</div>
+          </div>
+        </div>
+        <div class="field mb-6">
+          <label>Expected Annual Return — Index Fund typical: 12%</label>
+          <div class="slider-row">
+            <input type="range" min="6" max="18" step="0.5" value="12" id="sip-rate" oninput="syncNum('sip-rate','sip-rate-n');calcSIP()">
+            <input type="number" class="num-input" id="sip-rate-n" value="12" min="6" max="18" step="0.5" oninput="syncRange('sip-rate-n','sip-rate');calcSIP()">
+          </div>
+          <div class="field-val" id="sip-rate-v">12% p.a.</div>
+        </div>
+        <div class="result-box">
+          <div class="result-grid">
+            <div class="res-item"><div class="res-val" id="sip-invested">₹6.0L</div><div class="res-label">Total Invested</div></div>
+            <div class="res-item"><div class="res-val" id="sip-gains">₹5.6L</div><div class="res-label">Returns (Compounding)</div></div>
+            <div class="res-item"><div class="res-val" id="sip-corpus">₹11.6L</div><div class="res-label">Final Corpus</div></div>
+          </div>
+          <div class="compound-bar"><div class="compound-fill" id="sip-bar" style="width:52%"></div></div>
+          <div class="legend-row">
+            <div class="leg"><div class="leg-dot" style="background:var(--brand)"></div>Invested</div>
+            <div class="leg"><div class="leg-dot" style="background:var(--accent-mid)"></div>Returns from compounding</div>
+          </div>
+        </div>
+        <div class="calc-note" id="sip-note">At 12% return, ₹5,000/month for 10 years turns ₹6L invested into ₹11.6L — that's ₹5.6L of free money from compounding!</div>
+      </div>
+    </div>
+
+    <!-- EMI CALCULATOR -->
+    <div class="calc-panel card" id="calc-emi">
+      <div class="calc-card-header blue">
+        <h3>EMI Calculator</h3>
+        <p>Home Loan, Gold Loan, Car Loan — know the real total cost before you sign</p>
+      </div>
+      <div class="card-body">
+        <div class="calc-grid mb-6">
+          <div class="field">
+            <label>Loan Amount (₹)</label>
+            <div class="slider-row">
+              <input type="range" min="100000" max="20000000" step="100000" value="3000000" id="emi-loan" oninput="syncNum('emi-loan','emi-loan-n');calcEMI()">
+              <input type="number" class="num-input" id="emi-loan-n" value="3000000" min="100000" max="20000000" step="100000" oninput="syncRange('emi-loan-n','emi-loan');calcEMI()">
+            </div>
+            <div class="field-val" id="emi-loan-v">₹30,00,000</div>
+          </div>
+          <div class="field">
+            <label>Loan Tenure</label>
+            <div class="slider-row">
+              <input type="range" min="1" max="30" step="1" value="20" id="emi-yr" oninput="syncNum('emi-yr','emi-yr-n');calcEMI()">
+              <input type="number" class="num-input" id="emi-yr-n" value="20" min="1" max="30" step="1" oninput="syncRange('emi-yr-n','emi-yr');calcEMI()">
+            </div>
+            <div class="field-val" id="emi-yr-v">20 Years</div>
+          </div>
+        </div>
+        <div class="field mb-6">
+          <label>Interest Rate</label>
+          <div class="slider-row">
+            <input type="range" min="6" max="18" step="0.25" value="8.5" id="emi-rate" oninput="syncNum('emi-rate','emi-rate-n');calcEMI()">
+            <input type="number" class="num-input" id="emi-rate-n" value="8.5" min="6" max="18" step="0.25" oninput="syncRange('emi-rate-n','emi-rate');calcEMI()">
+          </div>
+          <div class="field-val" id="emi-rate-v">8.5% p.a.</div>
+        </div>
+        <div class="result-box blue">
+          <div class="result-grid">
+            <div class="res-item"><div class="res-val blue" id="emi-monthly">₹26,035</div><div class="res-label">Monthly EMI</div></div>
+            <div class="res-item"><div class="res-val blue" id="emi-interest">₹32.5L</div><div class="res-label">Total Interest Paid</div></div>
+            <div class="res-item"><div class="res-val blue" id="emi-total">₹62.5L</div><div class="res-label">Total Amount Paid</div></div>
+          </div>
+        </div>
+        <div class="calc-note" id="emi-note" style="border-left-color:var(--blue)">You pay <strong id="emi-extra">108%</strong> extra as interest over the loan period. Pre-paying even ₹10,000/month extra can save lakhs in interest.</div>
+      </div>
+    </div>
+
+    <!-- INFLATION CALCULATOR -->
+    <div class="calc-panel card" id="calc-inflation">
+      <div class="calc-card-header coral">
+        <h3>Inflation Wake-up Call</h3>
+        <p>What your money will really be worth in the future — a must-see for every beginner</p>
+      </div>
+      <div class="card-body">
+        <div class="calc-grid mb-6">
+          <div class="field">
+            <label>Amount Today (₹)</label>
+            <div class="slider-row">
+              <input type="range" min="10000" max="10000000" step="10000" value="100000" id="inf-amt" oninput="syncNum('inf-amt','inf-amt-n');calcInflation()">
+              <input type="number" class="num-input" id="inf-amt-n" value="100000" min="10000" max="10000000" step="10000" oninput="syncRange('inf-amt-n','inf-amt');calcInflation()">
+            </div>
+            <div class="field-val" id="inf-amt-v">₹1,00,000</div>
+          </div>
+          <div class="field">
+            <label>Years From Now</label>
+            <div class="slider-row">
+              <input type="range" min="1" max="30" step="1" value="10" id="inf-yr" oninput="syncNum('inf-yr','inf-yr-n');calcInflation()">
+              <input type="number" class="num-input" id="inf-yr-n" value="10" min="1" max="30" step="1" oninput="syncRange('inf-yr-n','inf-yr');calcInflation()">
+            </div>
+            <div class="field-val" id="inf-yr-v">10 Years</div>
+          </div>
+        </div>
+        <div class="field mb-6">
+          <label>Expected Inflation Rate — India average ~6%</label>
+          <div class="slider-row">
+            <input type="range" min="3" max="12" step="0.5" value="6" id="inf-rate" oninput="syncNum('inf-rate','inf-rate-n');calcInflation()">
+            <input type="number" class="num-input" id="inf-rate-n" value="6" min="3" max="12" step="0.5" oninput="syncRange('inf-rate-n','inf-rate');calcInflation()">
+          </div>
+          <div class="field-val" id="inf-rate-v">6% p.a.</div>
+        </div>
+        <div class="result-box coral">
+          <div class="result-grid">
+            <div class="res-item"><div class="res-val coral" id="inf-today">₹1.0L</div><div class="res-label">Value Today</div></div>
+            <div class="res-item"><div class="res-val coral" id="inf-future">₹55,839</div><div class="res-label">Real Value Then</div></div>
+            <div class="res-item"><div class="res-val coral" id="inf-needed">₹1.79L</div><div class="res-label">Need to Invest Now</div></div>
+          </div>
+        </div>
+        <div class="calc-note" id="inf-note" style="border-left-color:var(--coral)">₹1 Lakh today = just ₹55,839 in purchasing power after 10 years at 6% inflation. Your money shrinks while you sleep — invest it!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     GOAL PLANNER
+══════════════════════════════════════════ -->
+<section class="section" id="goal-planner">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Goal Planner</div>
+      <h2>Your dream, your number</h2>
+      <p>Tell us your financial goal and we'll tell you exactly how much to invest every month to get there.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header" style="border-bottom:1px solid var(--border);padding-bottom:20px;">
+        <div class="gp-presets">
+          <div class="gp-preset active" onclick="setGoal('Buy a car',500000,3,10,this)">🚗 Buy a car</div>
+          <div class="gp-preset" onclick="setGoal('Dream vacation',200000,2,7,this)">✈️ Dream vacation</div>
+          <div class="gp-preset" onclick="setGoal('Emergency fund',300000,2,7,this)">🛡️ Emergency fund</div>
+          <div class="gp-preset" onclick="setGoal('Home down payment',2000000,7,10,this)">🏠 Home down payment</div>
+          <div class="gp-preset" onclick="setGoal('Child education fund',5000000,15,12,this)">🎓 Child education</div>
+          <div class="gp-preset" onclick="setGoal('Retirement corpus',20000000,25,12,this)">🌅 Retirement</div>
+        </div>
+        <div class="field">
+          <label>My goal is to</label>
+          <input type="text" id="goal-name" value="Buy a car" placeholder="e.g. Buy a car in 3 years..." style="max-width:400px">
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="calc-grid mb-6">
+          <div class="field">
+            <label>Target Amount (₹)</label>
+            <div class="slider-row">
+              <input type="range" min="50000" max="50000000" step="50000" value="500000" id="g-amt" oninput="syncNum('g-amt','g-amt-n');calcGoal()">
+              <input type="number" class="num-input" id="g-amt-n" value="500000" min="50000" max="50000000" step="50000" oninput="syncRange('g-amt-n','g-amt');calcGoal()">
+            </div>
+            <div class="field-val" id="g-amt-v">₹5,00,000</div>
+          </div>
+          <div class="field">
+            <label>In How Many Years</label>
+            <div class="slider-row">
+              <input type="range" min="1" max="30" step="1" value="3" id="g-yr" oninput="syncNum('g-yr','g-yr-n');calcGoal()">
+              <input type="number" class="num-input" id="g-yr-n" value="3" min="1" max="30" step="1" oninput="syncRange('g-yr-n','g-yr');calcGoal()">
+            </div>
+            <div class="field-val" id="g-yr-v">3 Years</div>
+          </div>
+        </div>
+        <div class="field mb-6">
+          <label>Expected Annual Return</label>
+          <div class="slider-row">
+            <input type="range" min="4" max="18" step="0.5" value="10" id="g-rate" oninput="syncNum('g-rate','g-rate-n');calcGoal()">
+            <input type="number" class="num-input" id="g-rate-n" value="10" min="4" max="18" step="0.5" oninput="syncRange('g-rate-n','g-rate');calcGoal()">
+          </div>
+          <div class="field-val" id="g-rate-v">10% p.a. — balanced fund</div>
+        </div>
+
+        <div class="gp-result">
+          <div class="gp-big" id="g-sip">₹12,658</div>
+          <div class="gp-big-label">per month SIP needed to reach your goal</div>
+          <div class="gp-stats">
+            <div class="gp-stat"><div class="sv" id="g-invested">₹4.6L</div><div class="sl">You invest in total</div></div>
+            <div class="gp-stat"><div class="sv" id="g-gain">₹0.4L</div><div class="sl">Market grows</div></div>
+            <div class="gp-stat"><div class="sv" id="g-target2">₹5.0L</div><div class="sl">Goal reached ✓</div></div>
+          </div>
+          <div class="tl-bar">
+            <div class="tl-invested" id="tl-i" style="flex:92">92%</div>
+            <div class="tl-returns" id="tl-r" style="flex:8">8%</div>
+          </div>
+          <div class="legend-row mt-4">
+            <div class="leg"><div class="leg-dot" style="background:var(--brand)"></div>Your investment</div>
+            <div class="leg"><div class="leg-dot" style="background:var(--accent-mid)"></div>Returns added</div>
+          </div>
+          <div class="milestone-row mt-6" id="milestone-strip"></div>
+        </div>
+        <div class="gp-tip" id="gp-tip">At 10% return, a balanced mutual fund is ideal for a 3-year goal. If your timeline is under 3 years, prefer a debt fund or RD to reduce risk.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TOOLS — RISK QUIZ + ASSET ALLOCATOR
+══════════════════════════════════════════ -->
+<section class="section section-alt" id="tools">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Tools</div>
+      <h2>Know yourself before<br>you invest</h2>
+      <p>Two essential tools to understand your risk tolerance and how to split your money across asset classes.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;" class="tools-grid">
+
+      <!-- RISK QUIZ -->
+      <div id="quiz">
+        <h3 style="margin-bottom:6px">Risk profile quiz</h3>
+        <p style="font-size:14px;margin-bottom:24px">5 questions — takes 3 minutes</p>
+        <div class="quiz-wrap" id="quiz-container">
+          <div class="quiz-progress" id="quiz-progress">
+            <div class="qp active"></div>
+            <div class="qp"></div><div class="qp"></div><div class="qp"></div><div class="qp"></div>
+          </div>
+          <div class="quiz-q" id="quiz-q">If your ₹1 Lakh investment drops 20% in a month, you would:</div>
+          <div class="quiz-opts" id="quiz-opts"></div>
+          <div class="quiz-nav">
+            <span class="quiz-step" id="quiz-step">Question 1 of 5</span>
+            <button class="btn-primary" onclick="nextQuestion()" id="quiz-next" style="padding:10px 22px;font-size:13px" disabled>Next →</button>
+          </div>
+        </div>
+        <div id="quiz-result-box" style="display:none"></div>
+      </div>
+
+      <!-- ASSET ALLOCATOR -->
+      <div id="alloc-section">
+        <h3 style="margin-bottom:6px">Asset allocation by age</h3>
+        <p style="font-size:14px;margin-bottom:24px">A starting point — adjust based on your risk profile</p>
+        <div class="field mb-6">
+          <label>Your Age</label>
+          <input type="range" min="18" max="65" step="1" value="28" id="age-slider" oninput="calcAlloc()">
+          <div class="field-val" id="age-val">28 years</div>
+        </div>
+        <div class="alloc-grid">
+          <div>
+            <div class="alloc-bar">
+              <div class="alloc-eq" id="alloc-eq" style="flex:72">Equity 72%</div>
+              <div class="alloc-debt" id="alloc-debt" style="flex:18">Debt 18%</div>
+              <div class="alloc-gold" id="alloc-gold">Gold 10%</div>
+            </div>
+          </div>
+          <div>
+            <div class="alloc-legend">
+              <div class="al-item"><div class="al-dot" style="background:var(--brand)"></div><span>Equity / Index Funds</span><span class="al-pct" id="leg-eq">72%</span></div>
+              <div class="al-item"><div class="al-dot" style="background:var(--blue)"></div><span>Debt / Bonds / PPF</span><span class="al-pct" id="leg-debt">18%</span></div>
+              <div class="al-item"><div class="al-dot" style="background:var(--accent-mid)"></div><span>Gold ETF</span><span class="al-pct" id="leg-gold">10%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="alloc-tip mt-6" id="alloc-tip">
+          At 28, you have a long investment horizon. Lean heavily into equity for maximum compounding. Consider Nifty 50 index funds as your core equity holding.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+@media(max-width:768px){ .tools-grid { grid-template-columns:1fr !important; } }
+</style>
+
+<!-- ══════════════════════════════════════════
+     FIRST ₹10 LAKH GUIDE
+══════════════════════════════════════════ -->
+<section class="section" id="learn">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Learn</div>
+      <h2>My first ₹10 Lakh guide</h2>
+      <p>Where should you invest your first significant ₹10,00,000? A clear, jargon-free breakdown comparing all major options.</p>
+    </div>
+
+    <div class="guide-tabs">
+      <div class="guide-tab active" onclick="showGuide('compare',this)">Compare options</div>
+      <div class="guide-tab" onclick="showGuide('howto',this)">How to start</div>
+      <div class="guide-tab" onclick="showGuide('myths',this)">Common myths</div>
+    </div>
+
+    <!-- COMPARE -->
+    <div class="guide-panel active" id="guide-compare">
+      <div class="option-cards">
+        <div class="oc featured">
+          <div class="oc-badge">Recommended for investors</div>
+          <h4>Nifty 50 Index Fund</h4>
+          <div class="oc-ret">10–13%</div>
+          <div class="oc-sub">Historical 10-yr CAGR</div>
+          <div class="oc-rows">
+            <div class="oc-row"><span>₹10L grows to (10 yrs)</span><span class="green">₹25.9L – ₹33.9L</span></div>
+            <div class="oc-row"><span>Min. SIP</span><span class="green">₹100/month</span></div>
+            <div class="oc-row"><span>Lock-in</span><span class="green">None</span></div>
+            <div class="oc-row"><span>Risk</span><span class="warn">Moderate</span></div>
+            <div class="oc-row"><span>Expense ratio</span><span class="green">~0.1%</span></div>
+            <div class="oc-row"><span>Tax (LTCG)</span><span>12.5% above ₹1.25L</span></div>
+          </div>
+          <div class="comp-bar"><div class="cb-fill" style="width:88%;background:var(--brand)"></div></div>
+        </div>
+        <div class="oc">
+          <div class="oc-badge warn">Government-backed</div>
+          <h4>PPF (Public Provident Fund)</h4>
+          <div class="oc-ret">7.1%</div>
+          <div class="oc-sub">Current interest rate (FY25)</div>
+          <div class="oc-rows">
+            <div class="oc-row"><span>₹10L grows to (10 yrs)</span><span class="green">₹19.7L</span></div>
+            <div class="oc-row"><span>Max deposit/yr</span><span class="warn">₹1.5L limit</span></div>
+            <div class="oc-row"><span>Lock-in</span><span class="danger">15 years</span></div>
+            <div class="oc-row"><span>Risk</span><span class="green">Zero</span></div>
+            <div class="oc-row"><span>Tax benefit</span><span class="green">80C + fully tax-free</span></div>
+            <div class="oc-row"><span>Liquidity</span><span class="danger">Very low</span></div>
+          </div>
+          <div class="comp-bar"><div class="cb-fill" style="width:54%;background:var(--blue)"></div></div>
+        </div>
+        <div class="oc">
+          <div class="oc-badge neutral">Safe &amp; predictable</div>
+          <h4>FD / RD (Bank Deposit)</h4>
+          <div class="oc-ret">6.5–7.5%</div>
+          <div class="oc-sub">Typical bank rates</div>
+          <div class="oc-rows">
+            <div class="oc-row"><span>₹10L grows to (10 yrs)</span><span>₹18.5L – ₹20.6L</span></div>
+            <div class="oc-row"><span>Min. invest</span><span>₹1,000</span></div>
+            <div class="oc-row"><span>Lock-in</span><span>Flexible (7d – 10yr)</span></div>
+            <div class="oc-row"><span>Risk</span><span class="green">Zero</span></div>
+            <div class="oc-row"><span>Tax</span><span class="danger">As per income slab</span></div>
+            <div class="oc-row"><span>Beats inflation?</span><span class="danger">Barely</span></div>
+          </div>
+          <div class="comp-bar"><div class="cb-fill" style="width:40%;background:var(--gray-400)"></div></div>
+        </div>
+        <div class="oc">
+          <div class="oc-badge purple">Retirement focused</div>
+          <h4>NPS (National Pension System)</h4>
+          <div class="oc-ret">9–11%</div>
+          <div class="oc-sub">Equity tier historical returns</div>
+          <div class="oc-rows">
+            <div class="oc-row"><span>₹10L grows to (10 yrs)</span><span class="green">₹23.7L – ₹28.4L</span></div>
+            <div class="oc-row"><span>Min. invest</span><span>₹1,000/year</span></div>
+            <div class="oc-row"><span>Lock-in</span><span class="danger">Till age 60</span></div>
+            <div class="oc-row"><span>Extra tax benefit</span><span class="green">80CCD(1B) ₹50K extra</span></div>
+            <div class="oc-row"><span>Annuity on exit</span><span class="warn">40% mandatory</span></div>
+            <div class="oc-row"><span>Liquidity</span><span class="danger">Very low</span></div>
+          </div>
+          <div class="comp-bar"><div class="cb-fill" style="width:68%;background:var(--purple)"></div></div>
+        </div>
+      </div>
+      <div class="growth-highlight">
+        <strong>₹10 Lakh invested for 10 years:</strong> Index Fund → ₹25.9L–₹33.9L &nbsp;·&nbsp; NPS → ₹23.7L–₹28.4L &nbsp;·&nbsp; PPF → ₹19.7L &nbsp;·&nbsp; FD → ₹18.5L–₹20.6L<br>
+        <strong>Smart split for most beginners:</strong> 70% in Nifty 50 Index Fund + 20% in PPF (tax benefit) + 10% in liquid fund (emergency buffer).
+      </div>
+    </div>
+
+    <!-- HOW TO START -->
+    <div class="guide-panel" id="guide-howto">
+      <div class="how-steps">
+        <div class="hs">
+          <div class="hs-num">1</div>
+          <div><h4>Park ₹1–2L in a liquid fund first</h4><p>Before deploying ₹10L into markets, keep 3–6 months of expenses in a liquid mutual fund (e.g. HDFC Liquid Fund). This is your safety net — never invest your emergency fund in equity.</p><span class="tag" style="background:var(--brand-light);color:var(--brand);">Non-negotiable first step</span></div>
+        </div>
+        <div class="hs">
+          <div class="hs-num">2</div>
+          <div><h4>Don't invest ₹10L all at once — use STP</h4><p>A Systematic Transfer Plan (STP) lets you park the lump sum in a liquid fund and auto-transfer a fixed amount monthly into equity. This protects you from investing at a market peak. Transfer ₹50,000–₹1L per month over 10–20 months.</p><span class="tag" style="background:var(--purple-light);color:var(--purple);">Reduces timing risk</span></div>
+        </div>
+        <div class="hs">
+          <div class="hs-num">3</div>
+          <div><h4>Allocate based on your goal timeline</h4><p>Under 3 years: keep mostly in debt funds / FD. 3–7 years: 60% equity (Nifty 50 index) + 40% debt. Over 7 years: 70–80% equity index funds + 10–20% debt + 10% gold ETF.</p><span class="tag" style="background:var(--accent-light);color:var(--accent);">Timeline drives allocation</span></div>
+        </div>
+        <div class="hs">
+          <div class="hs-num">4</div>
+          <div><h4>Max out PPF (₹1.5L/yr) for guaranteed tax-free returns</h4><p>PPF gives 7.1% fully tax-free + Section 80C deduction. For someone in the 30% tax bracket, the effective post-tax return is closer to 10%+. Contribute ₹1.5L annually as your "safe debt" allocation.</p><span class="tag" style="background:var(--blue-light);color:var(--blue);">Tax-efficient</span></div>
+        </div>
+        <div class="hs">
+          <div class="hs-num">5</div>
+          <div><h4>Add NPS if you want extra 80CCD(1B) deduction</h4><p>NPS gives an additional ₹50,000 deduction beyond the ₹1.5L 80C limit. At 30% tax slab, that's ₹15,000 saved in tax instantly. The downside: money is locked till age 60 and 40% must be annuitised on exit.</p><span class="tag" style="background:var(--purple-light);color:var(--purple);">For salaried, high-tax bracket</span></div>
+        </div>
+        <div class="hs">
+          <div class="hs-num">6</div>
+          <div><h4>Rebalance annually — not more often</h4><p>Once a year, check if your equity/debt split has drifted from your target. If equity has grown to 85% from your 70% target, sell some equity and buy debt to rebalance. This forces you to sell high and buy low automatically.</p><span class="tag" style="background:var(--gray-50);color:var(--gray-800);">Annual discipline</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MYTHS -->
+    <div class="guide-panel" id="guide-myths">
+      <div class="myth-list">
+        <div class="myth">
+          <div class="myth-q"><div class="myth-icon wrong">✗</div><p>"I should invest ₹10L in one shot to get maximum returns"</p></div>
+          <div class="myth-a">Lump sum at a market peak can take 3–5 years just to break even. The 2008 crash saw Nifty drop 60% — a ₹10L lump sum became ₹4L in months. Using a Systematic Transfer Plan (STP) over 12–18 months removes this timing risk while your money still earns 6–7% sitting in a liquid fund.</div>
+        </div>
+        <div class="myth">
+          <div class="myth-q"><div class="myth-icon wrong">✗</div><p>"With ₹10 Lakhs I should pick individual stocks for better returns"</p></div>
+          <div class="myth-a">Studies show over 90% of retail investors underperform the index over 10 years. Stock picking requires deep research, emotional discipline, and time. A Nifty 50 index fund gives you all 50 top Indian companies at 0.1% expense ratio — better than most active fund managers and far better than typical retail stock picks.</div>
+        </div>
+        <div class="myth">
+          <div class="myth-q"><div class="myth-icon wrong">✗</div><p>"Real estate is the best investment — I should use ₹10L as a down payment"</p></div>
+          <div class="myth-a">₹10L as a home down payment typically means taking a ₹40–60L loan at 8.5% interest. Over 20 years you'll pay ₹40–70L in interest alone. Rental yields in India are only 2–3%. Equity index funds have historically outperformed real estate in most Indian cities over 10+ year horizons.</div>
+        </div>
+        <div class="myth">
+          <div class="myth-q"><div class="myth-icon wrong">✗</div><p>"I need a financial advisor to manage ₹10 Lakhs"</p></div>
+          <div class="myth-a">For a simple portfolio (index fund + PPF + liquid fund), you don't need a paid advisor. Platforms like Groww, Zerodha Coin, and Paytm Money let you invest in direct plans with zero commission. If you want advice, only use SEBI-registered fee-only advisors — not commission-based agents who earn by selling you expensive regular plans.</div>
+        </div>
+        <div class="myth">
+          <div class="myth-q"><div class="myth-icon right">✓</div><p>"Diversification across asset classes truly reduces risk"</p></div>
+          <div class="myth-a">Absolutely true. A portfolio of 70% equity + 20% debt + 10% gold historically delivers 80–90% of pure equity returns with significantly lower volatility. When equity crashes, gold and debt often hold or rise — cushioning the blow. Rebalancing annually between these three is one of the simplest, most powerful strategies for long-term wealth.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     JARGON BUSTER
+══════════════════════════════════════════ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Jargon Buster</div>
+      <h2>Finance terms,<br>in plain language</h2>
+      <p>Searchable glossary of terms every Indian investor hears but nobody explains clearly.</p>
+    </div>
+    <div class="card" style="max-width:720px">
+      <div class="gloss-search-wrap">
+        <span class="gloss-search-icon">🔍</span>
+        <input type="text" class="gloss-search" placeholder="Search a term… e.g. XIRR, NAV, P/E, LTCG" id="gloss-input" oninput="filterGloss()">
+      </div>
+      <div class="gloss-items" id="gloss-list">
+        <div class="gloss-item" data-term="XIRR">
+          <div class="gloss-term-row"><span class="gloss-term">XIRR</span><span class="gloss-tag">Returns</span></div>
+          <div class="gloss-def">Extended Internal Rate of Return. Measures the actual annualised return on your SIP investments, accounting for the fact that each instalment is invested on a different date. Use XIRR (not CAGR) to compare your mutual fund performance.</div>
+        </div>
+        <div class="gloss-item" data-term="Expense Ratio">
+          <div class="gloss-term-row"><span class="gloss-term">Expense Ratio</span><span class="gloss-tag">Mutual Funds</span></div>
+          <div class="gloss-def">Annual fee charged by a mutual fund as a % of your investment. Lower is better — Nifty 50 index funds charge ~0.1% vs 1–2% for active funds. On ₹10L over 20 years, that 1% difference compiles into lakhs of lost returns.</div>
+        </div>
+        <div class="gloss-item" data-term="P/E Ratio">
+          <div class="gloss-term-row"><span class="gloss-term">P/E Ratio</span><span class="gloss-tag">Stocks</span></div>
+          <div class="gloss-def">Price-to-Earnings Ratio. How much investors pay for ₹1 of a company's annual profit. Nifty 50 P/E averages 20–22. Above 25 = expensive market; below 18 = good time to invest more. A useful but imperfect market valuation signal.</div>
+        </div>
+        <div class="gloss-item" data-term="LTCG">
+          <div class="gloss-term-row"><span class="gloss-term">LTCG</span><span class="gloss-tag">Tax</span></div>
+          <div class="gloss-def">Long Term Capital Gains. Profit from equity held for more than 1 year. Taxed at 12.5% on gains above ₹1.25 Lakh annually (as of FY 2024–25). For debt funds, LTCG applies after 3 years and is taxed as per your income slab.</div>
+        </div>
+        <div class="gloss-item" data-term="NAV">
+          <div class="gloss-term-row"><span class="gloss-term">NAV</span><span class="gloss-tag">Mutual Funds</span></div>
+          <div class="gloss-def">Net Asset Value. The per-unit price of a mutual fund, calculated daily. Like a stock price — you buy units at today's NAV and sell at a future NAV. A higher NAV doesn't mean expensive; it just means the fund has been around longer.</div>
+        </div>
+        <div class="gloss-item" data-term="SIP">
+          <div class="gloss-term-row"><span class="gloss-term">SIP</span><span class="gloss-tag">Investing</span></div>
+          <div class="gloss-def">Systematic Investment Plan. Investing a fixed amount into a mutual fund every month, automatically. SIP builds discipline, averages your purchase cost over time (rupee cost averaging), and removes the temptation to time the market.</div>
+        </div>
+        <div class="gloss-item" data-term="ELSS">
+          <div class="gloss-term-row"><span class="gloss-term">ELSS</span><span class="gloss-tag">Tax Saving</span></div>
+          <div class="gloss-def">Equity Linked Savings Scheme. A mutual fund that invests in equities AND gives Section 80C tax deduction up to ₹1.5L/year. Lock-in period is only 3 years — the shortest among 80C options. Good for investors comfortable with equity risk.</div>
+        </div>
+        <div class="gloss-item" data-term="Debt Fund">
+          <div class="gloss-term-row"><span class="gloss-term">Debt Fund</span><span class="gloss-tag">Mutual Funds</span></div>
+          <div class="gloss-def">A mutual fund that invests in bonds, government securities, and money market instruments. Lower risk than equity, returns of 6–8%, and higher liquidity than FDs. Good for short-term goals (1–3 years) or as the "stable" portion of your portfolio.</div>
+        </div>
+        <div class="gloss-item" data-term="Lumpsum">
+          <div class="gloss-term-row"><span class="gloss-term">Lumpsum</span><span class="gloss-tag">Investing</span></div>
+          <div class="gloss-def">Investing a large amount all at once, rather than in instalments (SIP). Lumpsum works well when markets are at a low. For large amounts at uncertain market levels, use STP (Systematic Transfer Plan) to invest gradually over 12–18 months.</div>
+        </div>
+        <div class="gloss-item" data-term="Rupee Cost Averaging">
+          <div class="gloss-term-row"><span class="gloss-term">Rupee Cost Averaging</span><span class="gloss-tag">Strategy</span></div>
+          <div class="gloss-def">When you invest via SIP, you buy more units when the price is low and fewer when it's high — automatically averaging your cost over time. This is the core advantage of SIP over lumpsum investing in volatile markets.</div>
+        </div>
+        <div class="gloss-item" data-term="Asset Allocation">
+          <div class="gloss-term-row"><span class="gloss-term">Asset Allocation</span><span class="gloss-tag">Strategy</span></div>
+          <div class="gloss-def">How you divide your investments across different asset classes — typically Equity (stocks/mutual funds), Debt (bonds/FD/PPF), and Gold. A common starting rule: (100 – your age)% in equity, the rest in debt + gold.</div>
+        </div>
+        <div class="gloss-item" data-term="Rebalancing">
+          <div class="gloss-term-row"><span class="gloss-term">Rebalancing</span><span class="gloss-tag">Strategy</span></div>
+          <div class="gloss-def">Periodically adjusting your portfolio back to your target asset allocation. If equity grows from 70% to 80% of your portfolio, you sell some equity and buy debt to get back to 70%. This naturally forces you to sell high and buy low.</div>
+        </div>
+      </div>
+      <div class="gloss-empty" id="gloss-empty">No terms found. Try searching something else.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FIRST-TIME INVESTOR CHECKLIST
+══════════════════════════════════════════ -->
+<section class="section" id="checklist">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Checklist</div>
+      <h2>The first-time investor<br>checklist</h2>
+      <p>Complete these steps before investing your first rupee. Tick each one off as you go.</p>
+    </div>
+    <div style="max-width:640px">
+      <div class="check-progress-bar"><div class="check-pfill" id="check-pfill" style="width:0%"></div></div>
+      <div class="check-ptext" id="check-ptext">0 of 8 completed</div>
+      <div id="check-list">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="check-tick">✓</span></div>
+          <div><div class="check-title">Get a PAN Card</div><div class="check-desc">Mandatory for all investments above ₹50,000 and for opening a Demat account. Apply online at incometax.gov.in — takes 10–15 minutes.</div></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="check-tick">✓</span></div>
+          <div><div class="check-title">Link Aadhaar to PAN</div><div class="check-desc">Required for KYC verification when opening investment accounts. Do it online at the Income Tax portal to avoid account deactivation.</div></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="check-tick">✓</span></div>
+          <div><div class="check-title">Open a savings account with good UPI support</div><div class="check-desc">You'll need this to transfer money to your investment accounts. Choose a bank with good mobile banking — HDFC, ICICI, Kotak, or SBI are popular choices.</div></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="check-tick">✓</span></div>
+          <div><div class="check-title">Build your emergency fund first</div><div class="check-desc">Park 3–6 months of expenses in a liquid mutual fund or high-yield savings account before investing in anything else. This is your safety net — never touch it for investments.</div></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="check-tick">✓</span></div>
+          <div><div class="check-title">Buy adequate term insurance</div><div class="check-desc">If anyone depends on your income, buy a pure term insurance plan first. Cover should be 10–15x your annual income. Don't mix insurance with investment (avoid ULIPs).</div></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="check-tick">✓</span></div>
+          <div><div class="check-title">Complete KYC for mutual funds</div><div class="check-desc">One-time KYC registration required for all mutual fund investments. Do it online via CVL KRA or through your chosen platform (Groww, Zerodha Coin, etc.).</div></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="check-tick">✓</span></div>
+          <div><div class="check-title">Open a Demat + Trading account (for stocks/ETFs)</div><div class="check-desc">Needed if you want to buy individual stocks or ETFs. Choose a discount broker — Zerodha, Groww, or Upstox. For only mutual funds, you don't need a Demat account.</div></div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><span class="check-tick">✓</span></div>
+          <div><div class="check-title">Start your first SIP — even ₹500/month</div><div class="check-desc">Pick a Nifty 50 index fund (UTI Nifty 50 Index, HDFC Index Fund, or ICICI Pru Nifty 50). Set up a monthly SIP. Starting small and staying consistent beats waiting until you "have enough."</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Investor<span>Guide</span></div>
+        <div class="footer-desc">India's smart investment toolkit for every investor. Free calculators, goal planner, risk quiz, and investment guides — all in one place.</div>
+      </div>
+      <div class="footer-col">
+        <h5>Tools</h5>
+        <a href="#calculators">SIP Calculator</a>
+        <a href="#calculators">EMI Calculator</a>
+        <a href="#calculators">Inflation Calculator</a>
+        <a href="#goal-planner">Goal Planner</a>
+        <a href="#tools">Risk Quiz</a>
+        <a href="#tools">Asset Allocator</a>
+      </div>
+      <div class="footer-col">
+        <h5>Learn</h5>
+        <a href="#learn">First ₹10 Lakh Guide</a>
+        <a href="#checklist">Investor Checklist</a>
+        <a href="#">Jargon Buster</a>
+        <a href="#">About InvestorGuide</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 InvestorGuide.in — Built for Indian Investors</span>
+      <span>Made with ♥ in India</span>
+    </div>
+    <div class="disclaimer">Disclaimer: InvestorGuide is for educational purposes only. We are not SEBI-registered investment advisors. Nothing on this website constitutes financial advice. Please consult a qualified financial advisor before making investment decisions. Past returns are not indicative of future performance.</div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+/* ── HELPERS ── */
+function fmtINR(n){
+  if(n>=10000000) return '₹'+(n/10000000).toFixed(1)+'Cr';
+  if(n>=100000) return '₹'+(n/100000).toFixed(1)+'L';
+  if(n>=1000) return '₹'+(n/1000).toFixed(0)+'K';
+  return '₹'+Math.round(n).toLocaleString('en-IN');
+}
+function fmtFull(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
+
+/* ── CALC TABS ── */
+function showCalc(id, el){
+  ['sip','emi','inflation'].forEach(c => {
+    document.getElementById('calc-'+c).style.display = 'none';
+    document.getElementById('calc-'+c).classList.remove('active');
+  });
+  document.getElementById('calc-'+id).style.display = 'block';
+  document.getElementById('calc-'+id).classList.add('active');
+  document.querySelectorAll('.calc-section-tabs .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ── SIP CALCULATOR ── */
+function calcSIP(){
+  const p = +document.getElementById('sip-amt').value;
+  const yr = +document.getElementById('sip-yr').value;
+  const rate = +document.getElementById('sip-rate').value;
+  const r = rate/100/12;
+  const n = yr*12;
+  const corpus = p*((Math.pow(1+r,n)-1)/r)*(1+r);
+  const invested = p*n;
+  const gains = corpus - invested;
+  document.getElementById('sip-amt-v').textContent = fmtFull(p);
+  document.getElementById('sip-yr-v').textContent = yr+' Year'+(yr>1?'s':'');
+  document.getElementById('sip-rate-v').textContent = rate+'% p.a.';
+  document.getElementById('sip-invested').textContent = fmtINR(invested);
+  document.getElementById('sip-gains').textContent = fmtINR(gains);
+  document.getElementById('sip-corpus').textContent = fmtINR(corpus);
+  document.getElementById('sip-bar').style.width = Math.round(invested/corpus*100)+'%';
+  document.getElementById('sip-note').textContent =
+    'At '+rate+'% return, '+fmtFull(p)+'/month for '+yr+' years turns '+fmtINR(invested)+' invested into '+fmtINR(corpus)+
+    ' — that\'s '+fmtINR(gains)+' of free money from compounding!';
+}
+
+/* ── EMI CALCULATOR ── */
+function calcEMI(){
+  const P = +document.getElementById('emi-loan').value;
+  const yr = +document.getElementById('emi-yr').value;
+  const rate = +document.getElementById('emi-rate').value;
+  const r = rate/100/12;
+  const n = yr*12;
+  const emi = P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const total = emi*n;
+  const interest = total - P;
+  document.getElementById('emi-loan-v').textContent = fmtFull(P);
+  document.getElementById('emi-yr-v').textContent = yr+' Year'+(yr>1?'s':'');
+  document.getElementById('emi-rate-v').textContent = rate+'% p.a.';
+  document.getElementById('emi-monthly').textContent = '₹'+Math.round(emi).toLocaleString('en-IN');
+  document.getElementById('emi-interest').textContent = fmtINR(interest);
+  document.getElementById('emi-total').textContent = fmtINR(total);
+  const extraPct = Math.round(interest/P*100);
+  document.getElementById('emi-extra').textContent = extraPct+'%';
+  document.getElementById('emi-note').innerHTML =
+    'You pay <strong>'+extraPct+'% extra</strong> as interest over the loan period. Pre-paying even ₹10,000/month extra can save lakhs and cut years off your loan.';
+}
+
+/* ── INFLATION CALCULATOR ── */
+function calcInflation(){
+  const amt = +document.getElementById('inf-amt').value;
+  const yr = +document.getElementById('inf-yr').value;
+  const rate = +document.getElementById('inf-rate').value/100;
+  const realVal = amt/Math.pow(1+rate,yr);
+  const needed = amt*Math.pow(1+rate,yr);
+  document.getElementById('inf-amt-v').textContent = fmtFull(amt);
+  document.getElementById('inf-yr-v').textContent = yr+' Year'+(yr>1?'s':'');
+  document.getElementById('inf-rate-v').textContent = (rate*100).toFixed(1)+'% p.a.';
+  document.getElementById('inf-today').textContent = fmtINR(amt);
+  document.getElementById('inf-future').textContent = fmtINR(realVal);
+  document.getElementById('inf-needed').textContent = fmtINR(needed);
+  document.getElementById('inf-note').textContent =
+    fmtINR(amt)+' today = just '+fmtINR(realVal)+' in purchasing power after '+yr+' years at '+(rate*100).toFixed(1)+
+    '% inflation. Invest it now — you need '+fmtINR(needed)+' in future money to match today\'s buying power.';
+}
+
+/* ── GOAL PLANNER ── */
+function calcGoal(){
+  const target = +document.getElementById('g-amt').value;
+  const yr = +document.getElementById('g-yr').value;
+  const rate = +document.getElementById('g-rate').value;
+  const r = rate/100/12;
+  const n = yr*12;
+  const sip = target*r/(Math.pow(1+r,n)-1);
+  const invested = sip*n;
+  const gain = target - invested;
+  const ipct = Math.round(invested/target*100);
+  const rpct = 100 - ipct;
+  document.getElementById('g-amt-v').textContent = fmtFull(target);
+  document.getElementById('g-yr-v').textContent = yr+' Year'+(yr>1?'s':'');
+  const rLabel = rate<=6?'liquid/debt fund':rate<=9?'balanced hybrid fund':rate<=12?'balanced fund':rate<=14?'equity mutual fund':'aggressive equity fund';
+  document.getElementById('g-rate-v').textContent = rate+'% p.a. — '+rLabel;
+  document.getElementById('g-sip').textContent = '₹'+Math.round(sip).toLocaleString('en-IN');
+  document.getElementById('g-invested').textContent = fmtINR(invested);
+  document.getElementById('g-gain').textContent = fmtINR(gain);
+  document.getElementById('g-target2').textContent = fmtINR(target);
+  document.getElementById('tl-i').style.flex = ipct;
+  document.getElementById('tl-i').textContent = ipct+'%';
+  document.getElementById('tl-r').style.flex = rpct;
+  document.getElementById('tl-r').textContent = rpct > 5 ? rpct+'%' : '';
+  const tip = yr<=2 ? 'Short-term goal (under 2 years): avoid equity entirely. Use a liquid fund or short-term debt fund. Capital preservation matters more than returns here.' :
+    yr<=4 ? 'Medium-term goal (3–4 years): a balanced hybrid fund (60% equity + 40% debt) strikes the right balance between growth and safety.' :
+    yr<=7 ? 'Medium-long term (5–7 years): a large-cap or flexi-cap index fund is ideal. Stay invested through market dips — they\'re temporary.' :
+    'Long-term goal ('+yr+'+ years): go mostly equity — Nifty 50 index fund + some mid-cap. Time is your most powerful asset. Stay the course.';
+  document.getElementById('gp-tip').textContent = tip;
+  buildMilestones(sip, yr, rate, target);
+}
+
+function buildMilestones(sip, yr, rate, target){
+  const strip = document.getElementById('milestone-strip');
+  strip.innerHTML = '';
+  const maxPts = 5;
+  const step = Math.max(1, Math.floor(yr/Math.min(maxPts,yr)));
+  const points = [];
+  for(let i=step; i<yr; i+=step) points.push(i);
+  points.push(yr);
+  const limited = points.slice(-maxPts);
+  limited.forEach((y, idx) => {
+    const r = rate/100/12;
+    const corpus = sip*((Math.pow(1+r,y*12)-1)/r);
+    const pct = Math.min(100, Math.round(corpus/target*100));
+    const done = pct >= 100;
+    if(idx > 0){
+      const line = document.createElement('div');
+      line.className = 'ms-line' + (done ? ' done' : '');
+      strip.appendChild(line);
+    }
+    const ms = document.createElement('div');
+    ms.className = 'ms';
+    ms.innerHTML = '<div class="ms-dot '+(done?'done':'active')+'">'+(done?'✓':pct+'%')+'</div><div class="ms-label">Yr '+y+'</div><div class="ms-amt">'+fmtINR(corpus)+'</div>';
+    strip.appendChild(ms);
+  });
+}
+
+function setGoal(name, amt, yr, rate, el){
+  document.getElementById('goal-name').value = name;
+  document.getElementById('g-amt').value = amt;
+  document.getElementById('g-yr').value = yr;
+  document.getElementById('g-rate').value = rate;
+  document.querySelectorAll('.gp-preset').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  calcGoal();
+}
+
+/* ── RISK QUIZ ── */
+const quizData = [
+  { q: "If your ₹1 Lakh investment drops 20% in a month, you would:", opts: ["Sell everything — I can't handle this stress","Wait and monitor — markets recover eventually","Buy more! Great opportunity to average down"], scores:[0,1,2] },
+  { q: "Your investment goal timeline is primarily:", opts: ["Less than 2 years","3–7 years","More than 7 years"], scores:[0,1,2] },
+  { q: "If you lost 30% of your portfolio, how would you feel?", opts: ["Devastated — I would stop investing","Worried but would stay invested","This is normal — long-term view matters"], scores:[0,1,2] },
+  { q: "How much of your monthly income are you comfortable investing?", opts: ["5–10% (small, safe amount)","10–20% (moderate commitment)","20%+ (serious wealth-building)"], scores:[0,1,2] },
+  { q: "Your ideal investment approach is:", opts: ["Capital protection — I cannot afford to lose any money","Balanced — moderate risk for reasonable returns","Maximum growth — I can handle short-term losses for long-term gain"], scores:[0,1,2] }
+];
+let quizAnswers = [];
+let currentQ = 0;
+
+function renderQuestion(){
+  const q = quizData[currentQ];
+  document.getElementById('quiz-q').textContent = q.q;
+  document.getElementById('quiz-step').textContent = 'Question '+(currentQ+1)+' of '+quizData.length;
+  document.getElementById('quiz-next').disabled = true;
+  document.getElementById('quiz-next').textContent = currentQ < quizData.length-1 ? 'Next →' : 'See my profile →';
+  const opts = document.getElementById('quiz-opts');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-opt' + (quizAnswers[currentQ]===i ? ' selected' : '');
+    div.innerHTML = '<div class="opt-radio"></div><span>'+opt+'</span>';
+    div.onclick = () => {
+      quizAnswers[currentQ] = i;
+      document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+      div.classList.add('selected');
+      document.getElementById('quiz-next').disabled = false;
+    };
+    opts.appendChild(div);
+  });
+  const prog = document.getElementById('quiz-progress');
+  prog.innerHTML = '';
+  for(let i=0;i<quizData.length;i++){
+    const d = document.createElement('div');
+    d.className = 'qp' + (i<currentQ?' done':i===currentQ?' active':'');
+    prog.appendChild(d);
+  }
+}
+
+function nextQuestion(){
+  if(quizAnswers[currentQ] === undefined) return;
+  if(currentQ < quizData.length-1){
+    currentQ++;
+    renderQuestion();
+  } else {
+    showQuizResult();
+  }
+}
+
+function showQuizResult(){
+  const total = quizAnswers.reduce((s,a,i) => s + quizData[i].scores[a], 0);
+  const max = quizData.length * 2;
+  const pct = total/max;
+  let profile, desc, color, recText;
+  if(pct < 0.4){
+    profile = 'Conservative Investor';
+    desc = 'You prioritise capital safety over high returns. Equity makes you uncomfortable. Focus on: PPF (70%) + Debt Funds (20%) + Liquid Fund (10%). Avoid equity for now, and revisit as your confidence grows.';
+    color = var_blue = '#185FA5';
+    recText = 'Recommended: PPF + Short-term Debt Funds + FD';
+  } else if(pct < 0.7){
+    profile = 'Moderate Investor';
+    desc = 'You want growth but can\'t stomach extreme volatility. A balanced approach suits you. Focus on: Nifty 50 Index Fund (50%) + Debt Fund (30%) + Gold ETF (10%) + Liquid Fund (10%).';
+    color = '#0F6E56';
+    recText = 'Recommended: Index Fund + Hybrid Fund + PPF';
+  } else {
+    profile = 'Aggressive Investor';
+    desc = 'You have a strong risk appetite and a long-term horizon. Equity is your friend. Go with: Nifty 50 Index Fund (60%) + Mid-cap Index Fund (20%) + International Fund (10%) + Gold ETF (10%).';
+    color = '#BA7517';
+    recText = 'Recommended: Index Funds + Mid-cap + International';
+  }
+  document.getElementById('quiz-container').style.display = 'none';
+  const rb = document.getElementById('quiz-result-box');
+  rb.style.display = 'block';
+  rb.innerHTML = '<div class="quiz-result"><div class="quiz-result-badge" style="background:'+color+'20;color:'+color+'">Your result</div><h3 style="color:'+color+'">'+profile+'</h3><p>'+desc+'</p><div style="margin-top:16px;padding:10px 16px;background:rgba(0,0,0,0.04);border-radius:8px;font-size:13px;color:var(--muted)">'+recText+'</div><button onclick="retakeQuiz()" class="btn-outline" style="margin-top:20px;font-size:13px">Retake Quiz</button></div>';
+}
+
+function retakeQuiz(){
+  quizAnswers = [];
+  currentQ = 0;
+  document.getElementById('quiz-container').style.display = 'block';
+  document.getElementById('quiz-result-box').style.display = 'none';
+  renderQuestion();
+}
+
+/* ── ASSET ALLOCATOR ── */
+function calcAlloc(){
+  const age = +document.getElementById('age-slider').value;
+  document.getElementById('age-val').textContent = age+' years';
+  const rawEq = Math.max(30, 100 - age);
+  const gold = 10;
+  const eq = Math.max(20, Math.min(80, rawEq - gold));
+  const debt = 100 - eq - gold;
+  document.getElementById('alloc-eq').style.flex = eq;
+  document.getElementById('alloc-eq').textContent = 'Equity '+eq+'%';
+  document.getElementById('alloc-debt').style.flex = debt;
+  document.getElementById('alloc-debt').textContent = 'Debt '+debt+'%';
+  document.getElementById('leg-eq').textContent = eq+'%';
+  document.getElementById('leg-debt').textContent = debt+'%';
+  document.getElementById('leg-gold').textContent = '10%';
+  let tip;
+  if(age < 30) tip = 'At '+age+', you have 30+ years of compounding ahead. Lean heavily into equity — Nifty 50 index fund as your core. Gold and debt provide a small safety cushion.';
+  else if(age < 40) tip = 'At '+age+', a growth-oriented allocation works well. Keep equity as your primary wealth-builder. Gradually increase debt allocation as you approach major life goals.';
+  else if(age < 50) tip = 'At '+age+', start tilting toward stability. Increase debt (PPF, bonds) while keeping equity for continued growth. Your emergency fund should be 6–12 months of expenses.';
+  else tip = 'At '+age+', capital preservation becomes more important. Shift toward debt-heavy allocation. Keep only the equity portion you won\'t need for 5+ years.';
+  document.getElementById('alloc-tip').textContent = tip;
+}
+
+/* ── JARGON BUSTER ── */
+function filterGloss(){
+  const q = document.getElementById('gloss-input').value.toLowerCase().trim();
+  const items = document.querySelectorAll('.gloss-item');
+  let visible = 0;
+  items.forEach(item => {
+    const match = item.textContent.toLowerCase().includes(q);
+    item.style.display = match ? '' : 'none';
+    if(match) visible++;
+  });
+  document.getElementById('gloss-empty').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── CHECKLIST ── */
+function toggleCheck(el){
+  el.classList.toggle('done');
+  const items = document.querySelectorAll('.check-item');
+  const done = document.querySelectorAll('.check-item.done').length;
+  const pct = Math.round(done/items.length*100);
+  document.getElementById('check-pfill').style.width = pct+'%';
+  document.getElementById('check-ptext').textContent = done+' of '+items.length+' completed';
+}
+
+/* ── GUIDE TABS ── */
+function showGuide(id, el){
+  document.querySelectorAll('.guide-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.guide-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('guide-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+/* ── SLIDER ↔ NUMBER INPUT SYNC ── */
+function syncNum(sliderId, numId) {
+  const slider = document.getElementById(sliderId);
+  const num = document.getElementById(numId);
+  if (num) num.value = slider.value;
+}
+function syncRange(numId, sliderId) {
+  const num = document.getElementById(numId);
+  const slider = document.getElementById(sliderId);
+  let val = parseFloat(num.value);
+  const min = parseFloat(slider.min);
+  const max = parseFloat(slider.max);
+  if (isNaN(val)) return;
+  val = Math.min(Math.max(val, min), max);
+  slider.value = val;
+  num.value = val;
+}
+
+/* ── INIT ── */
+calcSIP();
+calcEMI();
+calcInflation();
+calcGoal();
+calcAlloc();
+renderQuestion();
+</script>
+</body>
+</html>
